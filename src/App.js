@@ -7,7 +7,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      task: [],
+      tasks: [],
       isDisplayForm: false,
     };
   }
@@ -16,34 +16,34 @@ class App extends React.Component {
     if (localStorage && localStorage.getItem("tasks")) {
       var tasks = JSON.parse(localStorage.getItem("tasks"));
       this.setState({
-        task: tasks,
+        tasks: tasks,
       });
     }
   }
-  onGenerateData = () => {
-    var tasks = [
-      {
-        id: this.generateID(),
-        name: "hoc lap trinh",
-        status: true,
-      },
-      {
-        id: this.generateID(),
-        name: "di boi",
-        status: false,
-      },
-      {
-        id: this.generateID(),
-        name: "ngu",
-        status: true,
-      },
-    ];
-    this.setState({
-      tasks: tasks,
-    });
-    //lưu vào localStorage
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  };
+  // onGenerateData = () => {
+  //   var tasks = [
+  //     {
+  //       id: this.generateID(),
+  //       name: "hoc lap trinh",
+  //       status: true,
+  //     },
+  //     {
+  //       id: this.generateID(),
+  //       name: "di boi",
+  //       status: false,
+  //     },
+  //     {
+  //       id: this.generateID(),
+  //       name: "ngu",
+  //       status: true,
+  //     },
+  //   ];
+  //   this.setState({
+  //     tasks: tasks,
+  //   });
+  //   //lưu vào localStorage
+  //   localStorage.setItem("tasks", JSON.stringify(tasks));
+  // };
   //random ID
   s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -70,19 +70,32 @@ class App extends React.Component {
       this.s4()
     );
   }
-  onToggleForm=()=>{
+  onToggleForm = () => {
     this.setState({
-      isDisplayForm:!this.state.isDisplayForm
-    })
-  }
-  onCloseForm=()=>{
+      isDisplayForm: !this.state.isDisplayForm,
+    });
+  };
+  onCloseForm = () => {
     this.setState({
-      isDisplayForm:false
+      isDisplayForm: false,
+    });
+  };
+  onSubmit = (data) => {
+    var {tasks}=this.state;
+    data.id=this.generateID();
+    tasks.push(data);
+    this.setState({
+      tasks: tasks
     })
-  }
+    localStorage.setItem('tasks',JSON.stringify(tasks)); 
+  };
   render() {
     var { tasks, isDisplayForm } = this.state; //var tasks=this.state.tasks;
-    var elmTasksForm = isDisplayForm ? <TaskForm onCloseForm={this.onCloseForm}/> : "";
+    var elmTasksForm = isDisplayForm ? (
+      <TaskForm onCloseForm={this.onCloseForm} onSubmit={this.onSubmit} />
+    ) : (
+      ""
+    );
     return (
       <div className="container">
         <div className="text-center">
@@ -112,13 +125,13 @@ class App extends React.Component {
             >
               <span className="fa fa-plus mr-5"></span>Thêm Công Việc
             </button>
-            <button
+            {/* <button
               type="button"
               className="btn btn-danger ml-5"
               onClick={this.onGenerateData}
             >
               Generate Data
-            </button>
+            </button> */}
             {/* search-sort */}
             <Control />
             {/* list*/}
