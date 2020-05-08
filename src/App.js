@@ -8,6 +8,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       task: [],
+      isDisplayForm: false,
     };
   }
   //khởi chạy khi load lại trang
@@ -69,8 +70,19 @@ class App extends React.Component {
       this.s4()
     );
   }
+  onToggleForm=()=>{
+    this.setState({
+      isDisplayForm:!this.state.isDisplayForm
+    })
+  }
+  onCloseForm=()=>{
+    this.setState({
+      isDisplayForm:false
+    })
+  }
   render() {
-    var { tasks } = this.state; //var tasks=this.state.tasks;
+    var { tasks, isDisplayForm } = this.state; //var tasks=this.state.tasks;
+    var elmTasksForm = isDisplayForm ? <TaskForm onCloseForm={this.onCloseForm}/> : "";
     return (
       <div className="container">
         <div className="text-center">
@@ -78,12 +90,26 @@ class App extends React.Component {
           <hr />
         </div>
         <div className="row">
-          <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <div
+            className={
+              isDisplayForm ? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ""
+            }
+          >
             {/* Form */}
-            <TaskForm />
+            {elmTasksForm}
           </div>
-          <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-            <button type="button" className="btn btn-primary">
+          <div
+            className={
+              isDisplayForm
+                ? "col-xs-8 col-sm-8 col-md-8 col-lg-8"
+                : "col-xs-12 col-sm-12 col-md-12 col-lg-12"
+            }
+          >
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={this.onToggleForm}
+            >
               <span className="fa fa-plus mr-5"></span>Thêm Công Việc
             </button>
             <button
