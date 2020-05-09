@@ -100,6 +100,16 @@ class App extends React.Component {
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   };
+  onDelete = (id) => {
+    var { tasks } = this.state;
+    var index = this.findIndex(id);
+    if (index !== -1) {
+      tasks.splice(index, 1);
+      this.setState({ tasks: tasks });
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      this.onCloseForm();
+    }
+  };
   findIndex = (id) => {
     var { tasks } = this.state;
     var result =-1;
@@ -156,7 +166,7 @@ class App extends React.Component {
             {/* search-sort */}
             <Control />
             {/* list*/}
-            <TaskList tasks={tasks} onUpdateStatus={this.onUpdateStatus} />
+            <TaskList tasks={tasks} onUpdateStatus={this.onUpdateStatus} onDelete={this.onDelete}/>
           </div>
         </div>
       </div>
