@@ -4,10 +4,40 @@ class TaskForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      id:'',
+      name: '',
       status: true,
     };
   }
+  //khi click button edit task
+  componentWillMount (){
+   if(this.props.task)
+   {this.setState({
+     id:this.props.task.id,
+     name:this.props.task.name,
+     status:this.props.task.status,
+   })}
+  } 
+  //khi form mở lên rồi mà vẫn nhận được props(click button add->click button edit)
+  componentWillReceiveProps(nextProps) {
+    if(nextProps && nextProps.task)
+    {
+      this.setState({
+      id:nextProps.task.id,
+      name:nextProps.task.name,
+      status:nextProps.task.status,
+      })
+    }
+    else if(!nextProps.task){
+      this.setState({
+        id:'',
+        name: '',
+        status: true,
+      })
+    }
+  }
+  
+
   onCloseForm = () => {
     this.props.onCloseForm();
   };
@@ -25,7 +55,7 @@ class TaskForm extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
     this.props.onSubmit(this.state);
-    //cacel && close
+    //cancel && close
     this.onClear();
     this.onCloseForm();
   };
@@ -36,11 +66,12 @@ class TaskForm extends React.Component {
     });
   };
   render() {
+    var {id}=this.state;
     return (
       <div className="panel panel-warning">
         <div className="panel-heading">
           <h3 className="panel-title">
-            Thêm Công Việc
+            {id!==''?'Cập nhật Công Việc':'Thêm Công Việc'}
             <span
               className="fa fa-times-circle text-right"
               onClick={this.onCloseForm}
@@ -73,7 +104,7 @@ class TaskForm extends React.Component {
             <br />
             <div className="text-center">
               <button type="submit" className="btn btn-warning">
-                Thêm
+                Lưu lại
               </button>
               &nbsp;
               <button

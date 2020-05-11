@@ -9,6 +9,7 @@ class App extends React.Component {
     this.state = {
       tasks: [],
       isDisplayForm: false,
+      taskEditing: null,
     };
   }
   //khởi chạy khi load lại trang
@@ -70,25 +71,45 @@ class App extends React.Component {
       this.s4()
     );
   }
+  //thêm task
   onToggleForm = () => {
-    this.setState({
-      isDisplayForm: !this.state.isDisplayForm,
-    });
+    if (this.state.isDisplayForm && this.state.taskEditing != null) {
+      this.setState({
+        isDisplayForm: true,
+        taskEditing: null,
+      });
+    } else {
+      this.setState({
+        isDisplayForm: !this.state.isDisplayForm,
+        taskEditing: null,
+      });
+    }
   };
   onCloseForm = () => {
     this.setState({
       isDisplayForm: false,
     });
   };
+  onShowForm = () => {
+    this.setState({
+      isDisplayForm: true,
+    });
+  };
   onSubmit = (data) => {
     var { tasks } = this.state;
-    data.id = this.generateID();
-    tasks.push(data);
+    if (data.id === "") {
+      data.id = this.generateID();
+      tasks.push(data);
+    } else {
+      //editing
+      var index = this.findIndex(data.id);
+      tasks[index] = data;
+    }
     this.setState({
       tasks: tasks,
+      taskEditing: null,
     });
     localStorage.setItem("tasks", JSON.stringify(tasks));
-    
   };
 
   onUpdateStatus = (id) => {
@@ -110,20 +131,31 @@ class App extends React.Component {
       this.onCloseForm();
     }
   };
+  onUpdate = (id) => {
+    var { tasks } = this.state;
+    var index = this.findIndex(id);
+    var taskEditing = tasks[index];
+    this.setState({ taskEditing: taskEditing });
+    this.onShowForm();
+  };
   findIndex = (id) => {
     var { tasks } = this.state;
-    var result =-1;
+    var result = -1;
     tasks.forEach((task, index) => {
       if (task.id === id) {
-        result= index;
+        result = index;
       }
     });
     return result;
   };
   render() {
-    var { tasks, isDisplayForm } = this.state; //var tasks=this.state.tasks;
+    var { tasks, isDisplayForm, taskEditing } = this.state; //var tasks=this.state.tasks;
     var elmTasksForm = isDisplayForm ? (
-      <TaskForm onCloseForm={this.onCloseForm} onSubmit={this.onSubmit} />
+      <TaskForm
+        onCloseForm={this.onCloseForm}
+        onSubmit={this.onSubmit}
+        task={taskEditing}
+      />
     ) : (
       ""
     );
@@ -166,7 +198,12 @@ class App extends React.Component {
             {/* search-sort */}
             <Control />
             {/* list*/}
-            <TaskList tasks={tasks} onUpdateStatus={this.onUpdateStatus} onDelete={this.onDelete}/>
+            <TaskList
+              tasks={tasks}
+              onUpdateStatus={this.onUpdateStatus}
+              onDelete={this.onDelete}
+              onUpdate={this.onUpdate}
+            />
           </div>
         </div>
       </div>
