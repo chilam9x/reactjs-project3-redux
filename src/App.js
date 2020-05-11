@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import TaskForm from "./components/TaskForm";
-import Control from "./components/Control";
+import TaskControl from "./components/TaskControl";
 import TaskList from "./components/TaskList";
 class App extends React.Component {
   constructor(props) {
@@ -14,6 +14,11 @@ class App extends React.Component {
         name: "",
         status: -1,
       },
+      keyword: "",
+      sort:{ 
+        by:'name', 
+        value:1
+      }
     };
   }
   //khởi chạy khi load lại trang
@@ -158,9 +163,14 @@ class App extends React.Component {
       filter: { name: filterName.toLowerCase(), status: filterStatus },
     });
   };
-
+  onSearch = (keyword) => {
+    this.setState({ keyword: keyword });
+  };
+  onSort = (sort)=> {
+console.log(sort);
+  }
   render() {
-    var { tasks, isDisplayForm, taskEditing, filter } = this.state; //var tasks=this.state.tasks;
+    var { tasks, isDisplayForm, taskEditing, filter,keyword } = this.state; //var tasks=this.state.tasks;
     if (filter) {
       if (filter.name) {
         tasks = tasks.filter((task) => {
@@ -173,6 +183,11 @@ class App extends React.Component {
         } else {
           return task.status === (filter.status === 1 ? true : false);
         }
+      });
+    }
+    if(keyword){
+      tasks = tasks.filter((task) => {
+        return task.name.toLowerCase().indexOf(keyword) !== -1;
       });
     }
     var elmTasksForm = isDisplayForm ? (
@@ -221,7 +236,9 @@ class App extends React.Component {
               Generate Data
             </button> */}
             {/* search-sort */}
-            <Control />
+            <TaskControl onSearch={this.onSearch} 
+              onSort={this.onSort}
+            />
             {/* list*/}
             <TaskList
               tasks={tasks}
