@@ -3,6 +3,7 @@ import "./App.css";
 import TaskForm from "./components/TaskForm";
 import TaskControl from "./components/TaskControl";
 import TaskList from "./components/TaskList";
+import _ from "lodash";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -121,7 +122,10 @@ class App extends React.Component {
 
   onUpdateStatus = (id) => {
     var { tasks } = this.state;
-    var index = this.findIndex(id);
+    //var index = this.findIndex(id);
+    var index=_.findIndex(tasks,(task)=>{
+      return task.id === id;
+    })
     if (index !== -1) {
       tasks[index].status = !tasks[index].status;
       this.setState({ tasks: tasks });
@@ -195,9 +199,12 @@ class App extends React.Component {
       });
     }
     if (keyword) {
-      tasks = tasks.filter((task) => {
-        return task.name.toLowerCase().indexOf(keyword) !== -1;
-      });
+      // tasks = tasks.filter((task) => {
+      //   return task.name.toLowerCase().indexOf(keyword) !== -1;
+      // });
+      tasks=_.filter(tasks,(task)=>{
+        return task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+      })
     }
     if (sortBy === "name") {
       tasks.sort((a, b) => {
