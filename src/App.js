@@ -3,8 +3,6 @@ import "./App.css";
 import TaskForm from "./components/TaskForm";
 import TaskControl from "./components/TaskControl";
 import TaskList from "./components/TaskList";
-import _ from "lodash";
-import demo from "./trainning/demo";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -30,30 +28,7 @@ class App extends React.Component {
       });
     }
   }
-  // onGenerateData = () => {
-  //   var tasks = [
-  //     {
-  //       id: this.generateID(),
-  //       name: "hoc lap trinh",
-  //       status: true,
-  //     },
-  //     {
-  //       id: this.generateID(),
-  //       name: "di boi",
-  //       status: false,
-  //     },
-  //     {
-  //       id: this.generateID(),
-  //       name: "ngu",
-  //       status: true,
-  //     },
-  //   ];
-  //   this.setState({
-  //     tasks: tasks,
-  //   });
-  //   //lưu vào localStorage
-  //   localStorage.setItem("tasks", JSON.stringify(tasks));
-  // };
+
   //random ID
   s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -123,10 +98,10 @@ class App extends React.Component {
 
   onUpdateStatus = (id) => {
     var { tasks } = this.state;
-    //var index = this.findIndex(id);
-    var index=_.findIndex(tasks,(task)=>{
-      return task.id === id;
-    })
+    var index = this.findIndex(id);
+    // var index=_.findIndex(tasks,(task)=>{
+    //   return task.id === id;
+    // })
     if (index !== -1) {
       tasks[index].status = !tasks[index].status;
       this.setState({ tasks: tasks });
@@ -200,12 +175,10 @@ class App extends React.Component {
       });
     }
     if (keyword) {
-      // tasks = tasks.filter((task) => {
-      //   return task.name.toLowerCase().indexOf(keyword) !== -1;
-      // });
-      tasks=_.filter(tasks,(task)=>{
-        return task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
-      })
+      tasks = tasks.filter((task) => {
+        return task.name.toLowerCase().indexOf(keyword) !== -1;
+      });
+   
     }
     if (sortBy === "name") {
       tasks.sort((a, b) => {
@@ -274,7 +247,7 @@ class App extends React.Component {
             />
             {/* list*/}
             <TaskList
-              tasks={tasks}
+              // tasks={tasks}
               onUpdateStatus={this.onUpdateStatus}
               onDelete={this.onDelete}
               onUpdate={this.onUpdate}
