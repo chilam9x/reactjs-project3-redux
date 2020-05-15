@@ -34,17 +34,6 @@ class App extends React.Component {
       isDisplayForm: true,
     });
   };
-
-  onDelete = (id) => {
-    var { tasks } = this.state;
-    var index = this.findIndex(id);
-    if (index !== -1) {
-      tasks.splice(index, 1);
-      this.setState({ tasks: tasks });
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-      this.onCloseForm();
-    }
-  };
   onUpdate = (id) => {
     var { tasks } = this.state;
     var index = this.findIndex(id);
@@ -170,7 +159,6 @@ class App extends React.Component {
             />
             {/* list*/}
             <TaskList
-              onDelete={this.onDelete}
               onUpdate={this.onUpdate}
               onFilter={this.onFilter}
             />

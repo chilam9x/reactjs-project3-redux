@@ -39,6 +39,8 @@ var data = JSON.parse(localStorage.getItem("tasks"));
 var initialState = data ? data : [];
 
 var myReducer = (state = initialState, action) => {
+  var id = "";
+  var index = -1;
   switch (action.type) {
     case types.LIST_ALL:
       return state;
@@ -52,15 +54,20 @@ var myReducer = (state = initialState, action) => {
       localStorage.setItem("tasks", JSON.stringify(state));
       return [...state];
     case types.UPDATE_STATUS_TASK:
-      var id = action.id;
-      var index = findIndex(state, id);
+      id = action.id;
+      index = findIndex(state, id);
       // ...coppy phần tử
       state[index] = {
         ...state[index],
         status: !state[index].status,
       };
       localStorage.setItem("tasks", JSON.stringify(state));
-
+      return [...state];
+    case types.DELETE_TASKS:
+      id = action.id;
+      index = findIndex(state, id);
+      state.splice(index, 1); //xoa di 1 phan tu
+      localStorage.setItem("tasks", JSON.stringify(state));
       return [...state];
     default:
       return state;
