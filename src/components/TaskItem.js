@@ -10,7 +10,9 @@ class TaskItem extends React.Component {
     this.props.onCloseForm();
   };
   onUpdate = () => {
-    this.props.onUpdate(this.props.task.id);
+    // this.props.onUpdate(this.props.task.id);
+   this.props.onUpdateTasks(this.props.task);
+    this.props.onOpenForm();
   };
   render() {
     var { task, index } = this.props;
@@ -65,6 +67,12 @@ const mapDispatchToProps = (dispatch, props) => {
     },onCloseForm: () => {
       dispatch(actions.closeForm());
     },
+    onOpenForm: () => {
+      dispatch(actions.openForm());
+    },
+    onUpdateTasks:(task)=>{
+      dispatch(actions.updateTasks(task));
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TaskItem);

@@ -7,33 +7,32 @@ class TaskForm extends React.Component {
     this.state = {
       id: "",
       name: "",
-      status: true,
+      status: false,
     };
   }
   //khi click button edit task
   componentWillMount() {
-    if (this.props.task) {
+    if (this.props.updateTasks && this.props.updateTasks.id!==null) {
       this.setState({
-        id: this.props.task.id,
-        name: this.props.task.name,
-        status: this.props.task.status,
+        id: this.props.updateTasks.id,
+        name: this.props.updateTasks.name,
+        status: this.props.updateTasks.status,
       });
+    }
+    else{
+      this.onClear();
     }
   }
   //khi form mở lên rồi mà vẫn nhận được props(click button add->click button edit)
   componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.task) {
+    if (nextProps && nextProps.updateTasks) {
       this.setState({
-        id: nextProps.task.id,
-        name: nextProps.task.name,
-        status: nextProps.task.status,
+        id: nextProps.updateTasks.id,
+        name: nextProps.updateTasks.name,
+        status: nextProps.updateTasks.status,
       });
-    } else if (!nextProps.task) {
-      this.setState({
-        id: "",
-        name: "",
-        status: true,
-      });
+    } else{
+      this.onClear();
     }
   }
 
@@ -53,7 +52,7 @@ class TaskForm extends React.Component {
   };
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.onAddTask(this.state);
+    this.props.onSaveTask(this.state);
     //cancel && close
     this.onClear();
     this.onCloseForm();
@@ -65,6 +64,7 @@ class TaskForm extends React.Component {
     });
   };
   render() {
+    if(!this.props.isDisplayForm) return null;
     var { id } = this.state;
     return (
       <div className="panel panel-warning">
@@ -122,12 +122,15 @@ class TaskForm extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    isDisplayForm: state.isDisplayForm,
+    updateTasks:state.updateTasks
+  };
 };
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    onAddTask: (task) => {
-      dispatch(actions.addTask(task));
+    onSaveTask: (task) => {
+      dispatch(actions.saveTask(task));
     },
     onCloseForm: () => {
       dispatch(actions.closeForm());

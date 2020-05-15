@@ -4,8 +4,8 @@ export const listAll = () => {
   return { type: types.LIST_ALL };
 };
 
-export const addTask = (task) => {
-  return { type: types.ADD_TASK, task };
+export const saveTask = (task) => {
+  return { type: types.SAVE_TASK, task };
 };
 
 export const toggleForm = () => {
@@ -23,3 +23,7 @@ export const updateStatus = (id) => {
 export const deleteTask = (id) => {
   return { type: types.DELETE_TASKS, id };
 };
+export const updateTasks = (task) => {
+  return { type: types.UPDATE_TASKS, task };
+};
+

@@ -23,10 +23,14 @@ class App extends React.Component {
     };
   }
 
-
   //thêm task
   onToggleForm = () => {
     this.props.onToggleForm();
+    this.props.onClearTasks({
+      id: "",
+      name: "",
+      status: false,
+    });
   };
 
   onShowForm = () => {
@@ -70,7 +74,6 @@ class App extends React.Component {
     var {
       // tasks,
       // isDisplayForm,
-      taskEditing,
       // filter,
       // keyword,
       sortBy,
@@ -112,14 +115,6 @@ class App extends React.Component {
     //   });
     // }
 
-    var elmTasksForm = isDisplayForm ? (
-      <TaskForm
-        onSubmit={this.onSubmit}
-        task={taskEditing}
-      />
-    ) : (
-      ""
-    );
     return (
       <div className="container">
         <div className="text-center">
@@ -133,7 +128,7 @@ class App extends React.Component {
             }
           >
             {/* Form */}
-            {elmTasksForm}
+            <TaskForm />
           </div>
           <div
             className={
@@ -149,7 +144,7 @@ class App extends React.Component {
             >
               <span className="fa fa-plus mr-5"></span>Thêm Công Việc
             </button>
-          
+
             {/* search-sort */}
             <TaskControl
               onSearch={this.onSearch}
@@ -158,10 +153,7 @@ class App extends React.Component {
               sortValue={sortValue}
             />
             {/* list*/}
-            <TaskList
-              onUpdate={this.onUpdate}
-              onFilter={this.onFilter}
-            />
+            <TaskList onUpdate={this.onUpdate} onFilter={this.onFilter} />
           </div>
         </div>
       </div>
@@ -178,7 +170,9 @@ const mapDispatchToProps = (dispatch, props) => {
     onToggleForm: () => {
       dispatch(actions.toggleForm());
     },
-
+    onClearTasks: (task) => {
+      dispatch(actions.updateTasks(task));
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);
