@@ -26,4 +26,9 @@ export const deleteTask = (id) => {
 export const updateTasks = (task) => {
   return { type: types.UPDATE_TASKS, task };
 };
-
+export const filterTask = (filter) => {
+  return {
+    type: types.FILTER_TABLE,
+    filter, // filter:filter->filterName, filterStatus };
+  };
+};

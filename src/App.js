@@ -10,10 +10,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: {
-        name: "",
-        status: -1,
-      },
       keyword: "",
       sortBy: "name",
       sortValue: 1,
@@ -51,12 +47,7 @@ class App extends React.Component {
     });
     return result;
   };
-  onFilter = (filterName, filterStatus) => {
-    filterStatus = parseInt(filterStatus, 10);
-    this.setState({
-      filter: { name: filterName.toLowerCase(), status: filterStatus },
-    });
-  };
+
   onSearch = (keyword) => {
     this.setState({ keyword: keyword });
   };
@@ -68,29 +59,13 @@ class App extends React.Component {
   };
   render() {
     var {
-      // tasks,
-      // isDisplayForm,
-      // filter,
       // keyword,
       sortBy,
       sortValue,
-    } = this.state; //var tasks=this.state.tasks;
+    } = this.state;
 
     var { isDisplayForm } = this.props;
-    // if (filter) {
-    //   if (filter.name) {
-    //     tasks = tasks.filter((task) => {
-    //       return task.name.toLowerCase().indexOf(filter.name) !== -1;
-    //     });
-    //   }
-    //   tasks = tasks.filter((task) => {
-    //     if (filter.status === -1) {
-    //       return tasks;
-    //     } else {
-    //       return task.status === (filter.status === 1 ? true : false);
-    //     }
-    //   });
-    // }
+ 
     // if (keyword) {
     //   tasks = tasks.filter((task) => {
     //     return task.name.toLowerCase().indexOf(keyword) !== -1;
@@ -149,7 +124,7 @@ class App extends React.Component {
               sortValue={sortValue}
             />
             {/* list*/}
-            <TaskList  onFilter={this.onFilter} />
+            <TaskList/>
           </div>
         </div>
       </div>
