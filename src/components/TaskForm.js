@@ -60,7 +60,7 @@ class TaskForm extends React.Component {
   onClear = () => {
     this.setState({
       name: "",
-      status: true,
+      status: false,
     });
   };
   render() {

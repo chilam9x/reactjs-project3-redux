@@ -10,9 +10,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // tasks: [],
-      // isDisplayForm: false,
-      taskEditing: null,
       filter: {
         name: "",
         status: -1,
@@ -25,7 +22,12 @@ class App extends React.Component {
 
   //thêm task
   onToggleForm = () => {
-    this.props.onToggleForm();
+    var updateTasks = this.props;
+    if (updateTasks && updateTasks.id !== "") {
+      this.props.onOpenForm();
+    } else {
+      this.props.onToggleForm();
+    }
     this.props.onClearTasks({
       id: "",
       name: "",
@@ -38,13 +40,7 @@ class App extends React.Component {
       isDisplayForm: true,
     });
   };
-  onUpdate = (id) => {
-    var { tasks } = this.state;
-    var index = this.findIndex(id);
-    var taskEditing = tasks[index];
-    this.setState({ taskEditing: taskEditing });
-    this.onShowForm();
-  };
+ 
   findIndex = (id) => {
     var { tasks } = this.state;
     var result = -1;
@@ -153,7 +149,7 @@ class App extends React.Component {
               sortValue={sortValue}
             />
             {/* list*/}
-            <TaskList onUpdate={this.onUpdate} onFilter={this.onFilter} />
+            <TaskList  onFilter={this.onFilter} />
           </div>
         </div>
       </div>
@@ -163,6 +159,7 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isDisplayForm: state.isDisplayForm,
+    updateTasks: state.updateTasks,
   };
 };
 const mapDispatchToProps = (dispatch, props) => {
@@ -172,6 +169,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     onClearTasks: (task) => {
       dispatch(actions.updateTasks(task));
+    },
+    onOpenForm: () => {
+      dispatch(actions.openForm());
     },
   };
 };

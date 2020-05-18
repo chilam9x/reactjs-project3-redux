@@ -32,7 +32,6 @@ class TaskList extends React.Component {
               key={task.id}
               index={index}
               task={task}
-              onUpdate={this.props.onUpdate}
             />
           );
         })
