@@ -8,7 +8,6 @@ class TaskControl extends React.Component {
       <div className="row mt-15">
         <TaskSearch onSearch={this.props.onSearch} />
         <TaskSort
-          onSort={this.props.onSort}
           sortBy={this.props.sortBy}
           sortValue={this.props.sortValue}
         />

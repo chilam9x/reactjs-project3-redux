@@ -59,18 +59,12 @@ class App extends React.Component {
   };
   render() {
     var {
-      // keyword,
       sortBy,
       sortValue,
     } = this.state;
 
     var { isDisplayForm } = this.props;
  
-    // if (keyword) {
-    //   tasks = tasks.filter((task) => {
-    //     return task.name.toLowerCase().indexOf(keyword) !== -1;
-    //   });
-
     // }
     // if (sortBy === "name") {
     //   tasks.sort((a, b) => {
