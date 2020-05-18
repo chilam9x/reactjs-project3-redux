@@ -6,11 +6,8 @@ class TaskControl extends React.Component {
   render() {
     return (
       <div className="row mt-15">
-        <TaskSearch onSearch={this.props.onSearch} />
-        <TaskSort
-          sortBy={this.props.sortBy}
-          sortValue={this.props.sortValue}
-        />
+        <TaskSearch />
+        <TaskSort/>
       </div>
     );
   }

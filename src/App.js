@@ -7,14 +7,7 @@ import { connect } from "react-redux";
 import * as actions from "./actions/index";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      keyword: "",
-      sortBy: "name",
-      sortValue: 1,
-    };
-  }
+
 
   //thêm task
   onToggleForm = () => {
@@ -31,54 +24,11 @@ class App extends React.Component {
     });
   };
 
-  onShowForm = () => {
-    this.setState({
-      isDisplayForm: true,
-    });
-  };
- 
-  findIndex = (id) => {
-    var { tasks } = this.state;
-    var result = -1;
-    tasks.forEach((task, index) => {
-      if (task.id === id) {
-        result = index;
-      }
-    });
-    return result;
-  };
 
-  onSearch = (keyword) => {
-    this.setState({ keyword: keyword });
-  };
-  onSort = (sortBy, sortValue) => {
-    this.setState({
-      sortBy: sortBy,
-      sortValue: sortValue,
-    });
-  };
   render() {
-    var {
-      sortBy,
-      sortValue,
-    } = this.state;
 
     var { isDisplayForm } = this.props;
  
-    // }
-    // if (sortBy === "name") {
-    //   tasks.sort((a, b) => {
-    //     if (a.name > b.name) return sortValue;
-    //     else if (a.name < b.name) return -sortValue;
-    //     else return 0;
-    //   });
-    // } else {
-    //   tasks.sort((a, b) => {
-    //     if (a.status > b.status) return -sortValue;
-    //     else if (a.status < b.status) return sortValue;
-    //     else return 0;
-    //   });
-    // }
 
     return (
       <div className="container">
@@ -111,12 +61,7 @@ class App extends React.Component {
             </button>
 
             {/* search-sort */}
-            <TaskControl
-              onSearch={this.onSearch}
-              onSort={this.onSort}
-              sortBy={sortBy}
-              sortValue={sortValue}
-            />
+            <TaskControl/>
             {/* list*/}
             <TaskList/>
           </div>
